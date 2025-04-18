@@ -1,6 +1,8 @@
 # 🌱 Circular Economy Marketplace: Where Trash Gets a Second Chance! 🌱
 
 Welcome to the place where "one person's trash is another person's treasure" isn't just a saying—it's a business model!
+https://anvitas-circular-economy-marketplace.netlify.app
+
 
 ## 🚮 What Is This?
 
