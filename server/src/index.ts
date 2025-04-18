@@ -25,7 +25,7 @@ import messageRoutes from './routes/message.routes';
 
 // Create Express app
 const app: Express = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // Apply middlewares
 // Enable CORS

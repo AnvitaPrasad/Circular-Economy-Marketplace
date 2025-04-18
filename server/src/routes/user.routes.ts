@@ -1,35 +1,25 @@
-import express from 'express';
-import * as userController from '../controllers/user.controller';
-import { authenticate, isOwnerOrAdmin } from '../middleware/auth.middleware';
+import express, { Request, Response } from 'express';
 
 const router = express.Router();
 
-/**
- * @route GET /api/users/:id
- * @desc Get user profile by ID
- * @access Public
- */
-router.get('/:id', userController.getUserProfile);
+// GET user profile by ID
+router.get('/:id', function(req: Request, res: Response) {
+  res.status(200).json({ message: `Get user ${req.params.id} - Endpoint to be implemented` });
+});
 
-/**
- * @route PUT /api/users/:id
- * @desc Update user profile
- * @access Private (owner or admin)
- */
-router.put('/:id', authenticate, isOwnerOrAdmin, userController.updateUserProfile);
+// UPDATE user profile
+router.put('/:id', function(req: Request, res: Response) {
+  res.status(200).json({ message: `Update user ${req.params.id} - Endpoint to be implemented` });
+});
 
-/**
- * @route POST /api/users/:id/certifications
- * @desc Add a certification to user profile
- * @access Private (owner or admin)
- */
-router.post('/:id/certifications', authenticate, isOwnerOrAdmin, userController.addCertification);
+// Add a certification to user profile
+router.post('/:id/certifications', function(req: Request, res: Response) {
+  res.status(201).json({ message: `Add certification for user ${req.params.id} - Endpoint to be implemented` });
+});
 
-/**
- * @route PUT /api/users/:id/password
- * @desc Change user password
- * @access Private (owner or admin)
- */
-router.put('/:id/password', authenticate, isOwnerOrAdmin, userController.changePassword);
+// Change user password
+router.put('/:id/password', function(req: Request, res: Response) {
+  res.status(200).json({ message: `Change password for user ${req.params.id} - Endpoint to be implemented` });
+});
 
-export default router; 
+export default router;

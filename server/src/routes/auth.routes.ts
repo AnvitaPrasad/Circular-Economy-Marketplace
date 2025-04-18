@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import * as authController from '../controllers/auth.controller';
 
 const router = express.Router();
@@ -8,13 +8,17 @@ const router = express.Router();
  * @desc Register a new user
  * @access Public
  */
-router.post('/register', authController.register);
+router.post('/register', (req: Request, res: Response) => {
+  return authController.register(req, res);
+});
 
 /**
  * @route POST /api/auth/login
  * @desc Login user and get token
  * @access Public
  */
-router.post('/login', authController.login);
+router.post('/login', (req: Request, res: Response) => {
+  return authController.login(req, res);
+});
 
-export default router; 
+export default router;

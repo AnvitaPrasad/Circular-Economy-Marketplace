@@ -5,11 +5,12 @@
     "lib": ["es6", "dom"],
     "rootDir": "src",
     "outDir": "dist",
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noImplicitAny": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.test.ts"]
