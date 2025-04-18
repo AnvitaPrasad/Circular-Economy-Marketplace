@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../utils/api';
 
 const PageContainer = styled.div`
   display: flex;
@@ -156,43 +157,34 @@ const LoginPage: React.FC = () => {
     setError('');
     
     try {
-      // In a real application, this would be an API call to authenticate the user
-      // For now, let's simulate a successful login with demo credentials
+      // Call the actual login API endpoint
+      const response = await api.post('/api/auth/login', {
+        email,
+        password
+      });
       
-      // If using demo credentials (for demonstration purposes)
-      if (email === 'demo@example.com' && password === 'password123') {
-        // Mock successful login
-        setTimeout(() => {
-          login({
-            id: 1,
-            name: 'Demo User',
-            email: 'demo@example.com',
-            role: 'company',
-            avatar: '',
-            token: 'mock-token'
-          });
-          
-          navigate('/dashboard');
-          setIsLoading(false);
-        }, 1000);
-      } else {
-        // For demo purposes, let's accept any credentials
-        setTimeout(() => {
-          login({
-            id: 1,
-            name: 'User',
-            email: email,
-            role: 'company',
-            avatar: '',
-            token: 'mock-token'
-          });
-          
-          navigate('/dashboard');
-          setIsLoading(false);
-        }, 1000);
-      }
+      // Extract user data and token from response
+      const userData = response.data?.user || {};
+      const token = response.data?.token || 'mock-token';
+      
+      // Login the user
+      login({
+        id: userData.id || 1,
+        name: userData.name || 'User',
+        email: userData.email || email,
+        role: userData.role || 'company',
+        avatar: userData.avatar || '',
+        token: token
+      });
+      
+      navigate('/dashboard');
     } catch (err: any) {
-      setError('Invalid email or password');
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('Invalid email or password');
+      }
+    } finally {
       setIsLoading(false);
     }
   };

@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 
 const PageContainer = styled.div`
   display: flex;
@@ -220,8 +220,8 @@ const RegisterPage: React.FC = () => {
     setError('');
     
     try {
-      // In a real application, this would be an API call to register the user
-      const response = await axios.post('/api/auth/register', {
+      // Use our api client instead of direct axios
+      const response = await api.post('/api/auth/register', {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         password: formData.password,
@@ -229,15 +229,19 @@ const RegisterPage: React.FC = () => {
         role: formData.role
       });
       
-      // Mock successful response
-      // In a real app, this would come from the API response
+      // If we get here, registration was successful
+      // Extract user data from response
+      const userData = response.data?.user || {};
+      const token = response.data?.token || 'mock-token';
+      
+      // Login the user
       login({
-        id: 1, // This would come from the API
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        role: formData.role as 'company' | 'transporter' | 'admin',
-        avatar: '',
-        token: 'mock-token' // This would come from the API
+        id: userData.id || 1,
+        name: userData.name || `${formData.firstName} ${formData.lastName}`,
+        email: userData.email || formData.email,
+        role: userData.role || formData.role as 'company' | 'transporter' | 'admin',
+        avatar: userData.avatar || '',
+        token: token
       });
       
       navigate('/dashboard');
