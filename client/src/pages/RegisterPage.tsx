@@ -220,6 +220,8 @@ const RegisterPage: React.FC = () => {
     setError('');
     
     try {
+      console.log('Using API URL:', api.defaults.baseURL);
+      
       // Use our api client instead of direct axios
       const response = await api.post('/api/auth/register', {
         name: `${formData.firstName} ${formData.lastName}`,
@@ -229,14 +231,23 @@ const RegisterPage: React.FC = () => {
         role: formData.role
       });
       
+      console.log('Registration response:', response.data);
+      
       // If we get here, registration was successful
       // Extract user data from response
       const userData = response.data?.user || {};
-      const token = response.data?.token || 'mock-token';
+      const token = response.data?.token || '';
       
-      // Login the user
+      if (!token) {
+        console.error('No token received from server');
+        setError('Registration successful but login failed. Please try logging in manually.');
+        setIsLoading(false);
+        return;
+      }
+      
+      // Login the user with the received data
       login({
-        id: userData.id || 1,
+        id: userData.id || Math.floor(Math.random() * 10000),
         name: userData.name || `${formData.firstName} ${formData.lastName}`,
         email: userData.email || formData.email,
         role: userData.role || formData.role as 'company' | 'transporter' | 'admin',
@@ -246,6 +257,18 @@ const RegisterPage: React.FC = () => {
       
       navigate('/dashboard');
     } catch (err: any) {
+      console.error('Registration error:', err);
+      
+      if (err.response) {
+        console.error('Error response data:', err.response.data);
+        console.error('Error response status:', err.response.status);
+        console.error('Error response headers:', err.response.headers);
+      } else if (err.request) {
+        console.error('Error request:', err.request);
+      } else {
+        console.error('Error message:', err.message);
+      }
+      
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {

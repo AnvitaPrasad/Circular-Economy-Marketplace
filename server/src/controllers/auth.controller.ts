@@ -39,14 +39,35 @@ const loginSchema = Joi.object({
  */
 export const register = async (req: Request, res: Response) => {
   try {
-    // Placeholder for registration logic
-    const { name, email, password } = req.body;
+    console.log('Registration request received:', req.body);
     
-    // Mock successful registration
+    // Skip validation for now to simplify debugging
+    
+    // For now use mock data
+    const userData = {
+      id: 'user-' + Math.floor(Math.random() * 10000),
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+      companyName: req.body.companyName
+    };
+    
+    // Generate token
+    const token = generateToken({
+      id: userData.id,
+      email: userData.email,
+      role: userData.role
+    });
+    
+    // Return success response with token
+    console.log('Registration successful:', userData);
+    console.log('Generated token:', token);
+    
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
-      user: { id: 'mock-id', name, email }
+      user: userData,
+      token
     });
   } catch (error) {
     console.error('Registration error:', error);
