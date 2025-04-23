@@ -9,7 +9,7 @@ This is a marketplace for materials that would otherwise end up in landfills, oc
 
 ## ✨ Features
 
-- **Material Matchmaking**: Like a dating app, but for waste materials and companies that might want them
+- **Material Matchmaking**: Like a match making app, but for waste materials and companies that might want them
 - **Supply Chain Tracking**: Follow your trash's journey to becoming treasure
 - **Impact Dashboard**: Brag about how much waste you've diverted (we won't tell anyone you're just trying to save money)
 - **Logistics Integration**: Because your trash needs a ride to its new home
